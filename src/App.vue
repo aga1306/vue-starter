@@ -2,28 +2,31 @@
   <div>
     <h1>Witaj w systemie do zapisow na zajecia</h1>
    <div v-if="authenticatedEmail != '' ">
-    <h4> Witaj {{ email }}</h4>
+     <meeting-page></meeting-page>
+    <h4> Witaj {{ authenticatedEmail }}</h4>
     <a @click="logMeOut()">Wyloguj</a>
     </div >
     <div v-else>
-    Zaloguj sie emailem
-    <input type="text" v-model="email">
-    <button @click="logMeIn()">Wchodze</button>
+    <login-form @login="logMeIn($event)"></login-form>
       </div>
   </div>
 </template>
 
 <script>
+import "milligram";
+import LoginForm from "./LoginForm";
+import MeetingPage from "./meetings/MeetingPage";
+
 export default {
+  components: {LoginForm, MeetingPage},
   data() {
   return {
-    email: 'aga@mail.pl',
     authenticatedEmail: ''
   };
 },
   methods: {
-  logMeIn() {
-    this.authenticatedEmail = this.email;
+  logMeIn(username) {
+    this.authenticatedEmail = username;
   },
   logMeOut() {
     this.authenticatedEmail = '';
